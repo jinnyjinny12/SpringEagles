@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringEagles Blog</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" th:href="@{/css/public_reset.css}"/>
+    <link rel="stylesheet" th:href="@{/css/public_index.css}">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script th:src="@{/javascript/mainPage.js}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body>
+<header>
+    <div class="navbar">
+        <div class="logo" th:onclick="navigateToBlogPost()">
+            <h1>Spring Eagles</h1>
+        </div>
+        <div class="header-btn">
+            <div class="header-authentication" th:text="${username} + ' 님 환영합니다'"></div>
+            <div  class="header-logout" onclick="logout()">로그아웃</div>
+            <form id="searchForm" action="search" method="get">
+                <div class="search-box">
+                    <button type="submit" class="btn-search" id="searchButton">
+                        <img id="searchImg" src="/images/public_buttonSearch_img.svg" alt="검색"/>
+                    </button>
+                    <input type="text" name="q" class="input-search" placeholder="찾으실 검색어를 입력해 주세요..."
+                           id="searchInput" autocomplete="off">
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+<section>
+    <div class="post-align">
+        <div class="swiper-post">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" th:each="post : ${posts}">
+                        <a th:href="@{/stj/blog/posts}" th:if="${post.title == '주순태'}">
+                            <div class="main-post-content">
+                                <img th:src="@{/images/jst_main_img.PNG}" alt="Post Image">
+                                <div class="main-post-text">
+                                    <h2 th:text="${post.title}"></h2>
+                                    <p th:text="${post.description}"></p>
+                                </div>
+                            </div>
+                        </a>
+                        <a th:href="@{/khs/blog}" th:if="${post.title == '강형석'}">
+                            <div class="main-post-content">
+                                <img th:src="@{/images/khs_main_img.png}" id="hs" alt="Post Image">
+                                <div class="main-post-text">
+                                    <h2 th:text="${post.title}"></h2>
+                                    <p th:text="${post.description}"></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="main-post">
+            <div class="inner">
+                <div>🎉 팀원들의 블로그 🎉</div>
+            </div>
+            <div class="posts">
+                <div th:each="post : ${posts}">
+                    <a th:href="@{/stj/blog/posts}">
+                        <div class="post" th:if="${post.title == '주순태'}">
+                            <div class="box">
+                                <div class="img">
+                                    <img th:src="@{/images/jst_main_img.PNG}" alt="Post Image">
+                                </div>
+                                <div class="info">
+                                    <h3 th:text="${post.title}"></h3>
+                                    <p th:text="${post.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a th:href="@{/khs/blog}">
+                        <div class="post" th:if="${post.title == '강형석'}">
+                            <div class="box">
+                                <div class="img">
+                                    <img th:src="@{/images/khs_main_img.png}" alt="Post Image">
+                                </div>
+                                <div class="info">
+                                    <h3 th:text="${post.title}"></h3>
+                                    <p th:text="${post.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    // Swiper 객체 생성 및 옵션 설정
+    const swiper = new Swiper(".swiper-container", {
+        grabCursor: true,
+        loop: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        autoplay: {
+            delay: 5000,
+            disableOnInteraction: false,
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+        },
+    });
+
+    function logout() {
+        if (confirm("로그아웃 하시겠습니까?")) {
+            alert("로그아웃 되었습니다.")
+            location.href = "/logout";
+        } else {
+            return;
+        }
+    }
+</script>
+</body>
+</html>

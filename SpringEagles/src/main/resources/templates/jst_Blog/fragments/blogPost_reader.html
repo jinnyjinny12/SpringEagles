@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="reader">
+
+
+<div class="read-align">
+    <div class="read-container">
+        <div th:each="post : ${post}">
+            <div th:if="${post.postId == selectedId}" class="selected-post">
+                <div class="read-title" th:text="${post.title}">글의 제목</div>
+                <div class="read-sub" th:text="${post.description}">글의 설명</div>
+                <div class="read-option">
+                    <div class="read-date"><div th:text="'작성일자 : ' + ${post.createdAt}">작성 날짜</div></div>
+                    <div class="option-con">
+                        <a th:href="@{/stj/blog/update/{postId}(postId=${post.postId})}" class="read-modify-button">
+                            <div>수정</div>
+                        </a>
+                        <form th:action="@{/stj/blog/delete/{postId}(postId=${post.postId})}" method="post" onsubmit="return confirmDelete()">
+                            <button type="submit" class="read-modify-button">
+                                삭제
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="read-section">
+                    <div class="read-imgs">
+                        <div th:if="${not #strings.isEmpty(post.imageUrl)}">
+                            <img th:src="@{${post.imageUrl}}"/>
+                        </div>
+                    </div>
+                    <div class="read-content" th:text="${post.content}">작성글</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</html>
